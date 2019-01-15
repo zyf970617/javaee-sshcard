@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+	<package name="default" namespace="/card" extends="struts-default">
+		<action name="find" class="com.edu.action.CardAction" method="cardList">
+				<result name="success">/card/card_list.jsp</result>
+		</action>
+		
+		<action name="search" class="com.edu.action.CardAction" method="search">
+				<result name="success">/card/card_list.jsp</result>
+		</action>
+		
+		<action name="find2" class="com.edu.action.CardAction" method="cardList">
+				<result name="success">/card/trash_list.jsp</result>
+		</action>
+		
+		<action name="cardExcel" class="com.edu.action.DownloadAction" method="execute">
+				<result name="success" type="stream">
+					<param name="contentType">application/octet-stream</param> 
+                	<param name="contentDisposition">attachment;filename=card.xls</param> 
+				</result>
+		</action>
+		
+		<action name="getUserImg" class="com.edu.action.CardAction" method="getUserImg">
+		</action>
+		
+		<action name="newcard" class="com.edu.action.CardAction" method="newCard">
+			<result type="redirectAction" name="success">  
+                <param name="actionName">find</param>  
+                <param name="flag">0</param> 
+                <param name="page">1</param> 
+            </result>
+		</action>
+		
+		<action name="updateCard" class="com.edu.action.CardAction" method="updateCard">
+			<result type="redirectAction" name="success">  
+                <param name="actionName">find</param>  
+                <param name="flag">0</param> 
+                <param name="page">1</param> 
+            </result>
+		</action>
+		
+		<!-- 名片管理中删除单张名片 -->
+		<action name="deletecard" class="com.edu.action.CardAction" method="deleteCard">
+			<result type="redirectAction" name="success">  
+                <param name="actionName">find</param>  
+                <param name="flag">0</param> 
+                <param name="page">1</param> 
+            </result>
+		</action>
+		
+		<!-- 回收站中删除单张名片 -->
+		<action name="deletecard2" class="com.edu.action.CardAction" method="deleteCard">
+			<result type="redirectAction" name="success">  
+                <param name="actionName">find2</param>  
+                <param name="flag">1</param> 
+                <param name="page">1</param> 
+            </result>
+		</action>
+		
+		<!-- 名片管理中批量删除名片 -->
+		<action name="deletecards" class="com.edu.action.CardAction" method="deleteCards">
+			<result type="redirectAction" name="success">  
+                <param name="actionName">find</param>  
+                <param name="flag">0</param> 
+                <param name="page">1</param> 
+            </result>
+		</action>
+		
+		<!-- 回收站批量删除名片 -->
+		<action name="deletecards2" class="com.edu.action.CardAction" method="deleteCards">
+			<result type="redirectAction" name="success">  
+                <param name="actionName">find2</param>  
+                <param name="flag">1</param> 
+                <param name="page">1</param> 
+            </result>
+		</action>
+		
+		<action name="movecardsToTrash" class="com.edu.action.CardAction" method="moveCardsToTrash">
+			<result type="redirectAction" name="success">  
+                <param name="actionName">find</param>  
+                <param name="flag">0</param> 
+                <param name="page">1</param> 
+            </result>
+		</action>
+		
+		<action name="movecardsFromTrash" class="com.edu.action.CardAction" method="moveCardsFromTrash">
+			<result type="redirectAction" name="success">  
+                <param name="actionName">find2</param>  
+                <param name="flag">1</param> 
+                <param name="page">1</param> 
+            </result>
+		</action>
+		
+		<action name="excelCard" class="com.edu.action.UploadAction" method="upload">
+			<result type="redirectAction" name="success">  
+                <param name="actionName">find</param>  
+                <param name="flag">0</param> 
+                <param name="page">1</param> 
+            </result>			
+		</action>
+	</package>
+	
+</struts>

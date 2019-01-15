@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa" 
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/data/jpa 
+       http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+       http://cxf.apache.org/jaxws 
+       http://cxf.apache.org/schemas/jaxws.xsd
+       ">
+       
+    	<!-- 配置自动扫描的包，实现对注释的自动加载 --> 
+	    <context:component-scan base-package="com.edu.dao"/>
+	    <context:component-scan base-package="com.edu.services"/>
+      	<!-- 启动AspectJ注解支持 -->
+        <!-- <aop:aspectj-autoproxy></aop:aspectj-autoproxy> -->
+        <!-- 导入属性资源文件 -->
+        <context:property-placeholder location="classpath:db.properties"/>
+        <!--  配置C3P0数据源  -->
+        <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        	<property name="user" value="${jdbc.user}"></property>
+        	<property name="password" value="${jdbc.password}"></property>
+        	<property name="driverClass" value="${jdbc.driverClass}"></property>
+        	<property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>
+        	<property name="initialPoolSize" value="${jdbc.initPoolSize}"></property>
+        	<property name="maxPoolSize" value="${jdbc.maxPoolSize}"></property>
+        </bean>
+        <!-- 配置sessionFactory -->
+        <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	        <property name="dataSource" ref="dataSource"></property>
+	        <property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
+	        <property name="mappingLocations" value="classpath:com/edu/entity/*.hbm.xml"/>
+	    	<property name="packagesToScan">
+	    		<list>
+	    			<value>com.edu.entity.*</value>
+	    		</list>
+	    	</property>
+	    </bean>
+	    <!-- 配置spring的声明式事物 -->
+	    <!-- （1）配置Hibernate的事物管理器 -->
+	    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+	    	<property name="sessionFactory" ref="sessionFactory"></property>
+	    </bean>
+	    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	   <!-- （2）配置事物属性  -->
+	   <!-- <tx:advice id="txAdvice" transaction-manager="transactionManager">
+		    <tx:attributes>
+		      <tx:method name="insert*" propagation="REQUIRED"/>
+		      <tx:method name="update*" propagation="REQUIRED"/>
+		      <tx:method name="delete*" propagation="REQUIRED"/>
+		      <tx:method name="retrieve*" propagation="REQUIRED"/>
+		      <tx:method name="revert*" propagation="REQUIRED"/>
+		      <tx:method name="find*" propagation="REQUIRED"  read-only="true"/>
+		      <tx:method name="*" propagation="REQUIRED" read-only="true"/>
+		    </tx:attributes>
+		</tx:advice>
+		（3）配置事务切入点
+		<aop:config>
+			<aop:pointcut id="txPointcut" expression="execution(* com.edu.service.*.*(..))"/>
+			<aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice" />
+		</aop:config> 
+	-->
+</beans>

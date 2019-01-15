@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+        "-//Apache Struts//XWork Validator 1.0.2//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+	<!-- 修改表单验证 -->
+    <field name="user.userPassword">
+        <field-validator type="requiredstring" short-circuit="true">
+            <param name="trim">true</param>
+            <message>密码不能为空！</message>
+        </field-validator>
+        
+        <field-validator type="stringlength">
+            <param name="minLength">6</param>
+            <message>密码长度不能小于6位！</message>
+        </field-validator>
+    </field>
+    
+    <field name="re_password">
+        <field-validator type="requiredstring" short-circuit="true">
+           <message>确认密码不能为空！</message> 
+        </field-validator>
+        
+       <field-validator type="fieldexpression">
+          <param name="expression"><![CDATA[re_password==user.userPassword]]></param> 
+          <message>两次密码不一致！</message>
+       </field-validator>
+	</field>
+</validators>

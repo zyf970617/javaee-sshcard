@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+	<package name="test" namespace="/user" extends="struts-default">
+		<action name="login" class="com.edu.action.UserAction" method="userLogin">
+				<result name="input">/user/login.jsp</result>  <!-- 当valid校验失败，返回input -->
+				<result name="error">/user/login.jsp</result>
+				<result name="success">/user/index.jsp</result>
+		</action>
+		
+		<action name="register" class="com.edu.action.UserAction" method="userRegister">
+				<result name="input">/user/register.jsp</result>  <!-- 当valid校验失败，返回input -->
+				<result name="error">/user/register.jsp</result>
+				<result name="success">/user/index.jsp</result>
+		</action>
+		
+		<action name="find" class="com.edu.action.UserAction" method="userList">
+				<result name="success">/user/user_list.jsp</result>
+		</action>
+		
+		<action name="randCode" class="com.edu.action.CodeAction" method="index">
+		</action>
+		
+		<!-- 批量删除用户 -->
+		<action name="deleteusers" class="com.edu.action.UserAction" method="deleteUsers">
+			<result type="redirectAction" name="success">  
+                <param name="actionName">find</param>  
+                <param name="page">1</param> 
+            </result>
+            <result type="redirectAction" name="error1">  
+                <param name="actionName">find</param>  
+                <param name="page">1</param> 
+                <param name="msg">不能删除自己</param> 
+            </result>
+            <result type="redirectAction" name="error2">  
+                <param name="actionName">find</param>  
+                <param name="page">1</param> 
+                <param name="msg">不能删除超级管理员</param> 
+            </result>
+		</action>
+		
+		<!-- 删除用户 -->
+		<action name="deleteuser" class="com.edu.action.UserAction" method="deleteUser">
+			<result type="redirectAction" name="success">  
+                <param name="actionName">find</param>  
+                <param name="page">1</param> 
+            </result>
+            <result type="redirectAction" name="error1">  
+                <param name="actionName">find</param>  
+                <param name="page">1</param> 
+                <param name="msg">不能删除自己</param> 
+            </result>
+            <result type="redirectAction" name="error2">  
+                <param name="actionName">find</param>  
+                <param name="page">1</param> 
+                <param name="msg">不能删除超级管理员</param> 
+            </result>
+		</action>
+		
+		<action name="changePass" class="com.edu.action.UserAction" method="changePass">
+			<result type="redirectAction" name="input">  
+                <param name="actionName">find</param>  
+                <param name="page">1</param> 
+                <param name="msg">密码长度不能小于6位</param> 
+            </result>
+			<result type="redirectAction" name="success">  
+                <param name="actionName">find</param>  
+                <param name="page">1</param> 
+            </result>
+            <result type="redirectAction" name="error1">  
+                <param name="actionName">find</param>  
+                <param name="page">1</param> 
+                <param name="msg">两次密码不相等</param> 
+            </result>
+            <result type="redirectAction" name="error2">  
+                <param name="actionName">find</param>  
+                <param name="page">1</param> 
+                <param name="msg">原密码错误</param> 
+            </result>
+		</action>
+		
+		<action name="checkIn" class="com.edu.action.UserAction" method="checkIn">
+				<result name="error">/user/index.jsp</result>
+				<result type="redirectAction" name="userPage">  
+	                <param name="actionName">../user/find</param> 
+	                <param name="page">1</param> 
+	            </result>
+				<result type="redirectAction" name="cardPage">  
+	                <param name="actionName">../card/find</param>  
+	                <param name="flag">0</param> 
+	                <param name="page">1</param> 
+	            </result>
+		</action>
+	</package>
+	
+</struts>

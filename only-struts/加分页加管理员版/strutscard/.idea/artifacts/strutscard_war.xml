@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="strutscard:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="struts-card.war">
+      <element id="artifact" artifact-name="strutscard:war exploded" />
+    </root>
+  </artifact>
+</component>
